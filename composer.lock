@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "565c3ae25e2a312ec66f5895ffad5684",
+    "content-hash": "f9a8a413ec3bea250f2f60f4135193d9",
     "packages": [
         {
             "name": "akeneo/api-php-client",
@@ -60,6 +60,51 @@
             ],
             "description": "Akeneo PIM client for the API",
             "time": "2019-09-09T15:46:29+00:00"
+        },
+        {
+            "name": "akeneo/api-php-client-ee",
+            "version": "v5.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/akeneo/api-php-client-ee.git",
+                "reference": "39bc35795fde4ee492f3b10c926e83244d97fbb7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/akeneo/api-php-client-ee/zipball/39bc35795fde4ee492f3b10c926e83244d97fbb7",
+                "reference": "39bc35795fde4ee492f3b10c926e83244d97fbb7",
+                "shasum": ""
+            },
+            "require": {
+                "akeneo/api-php-client": "^5.0"
+            },
+            "require-dev": {
+                "donatj/mock-webserver": "^2.0",
+                "friendsofphp/php-cs-fixer": "^2.14",
+                "http-interop/http-factory-guzzle": "^1.0",
+                "php-http/guzzle6-adapter": "^2.0",
+                "phpspec/phpspec": "^5.0",
+                "phpunit/phpunit": "^7.0",
+                "symfony/yaml": "^4.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Akeneo\\PimEnterprise\\ApiClient\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "OSL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Akeneo",
+                    "homepage": "http://www.akeneo.com"
+                }
+            ],
+            "description": "Akeneo PIM ENTERPRISE client for the API",
+            "time": "2019-10-11T15:06:55+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",

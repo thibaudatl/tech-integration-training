@@ -7,3 +7,4 @@ services:
     volumes:
       - './:/srv/pim'
     working_dir: '/srv/pim'
+

@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-$clientBuilder = new \Akeneo\Pim\ApiClient\AkeneoPimClientBuilder('http://localhost:8088/');
+$clientBuilder = new \Akeneo\Pim\ApiClient\AkeneoPimClientBuilder('127.0.0.1:8088');
 $client = $clientBuilder->buildAuthenticatedByPassword(
     '2_28q0eh5zrvgggscgkgs4kwk8gcsc4sw8wgwg8c0sks8gggw0s4',
     '4yyftxudoesc4wk88oc4sowkw0k4gs4c4oco444cs0ksckkw0c',
@@ -10,8 +10,8 @@ $client = $clientBuilder->buildAuthenticatedByPassword(
     'admin'
 );
 
-var_dump($client->getToken());
-
+$token = $client->getToken();
+var_dump($token);
 /*
  * Credentials for the API
  *
@@ -23,3 +23,4 @@ var_dump($client->getToken());
 */
 
 $product = $client->getProductApi()->get('Tshirt-divided-blue-s');
+var_dump($product["identifier"]);

@@ -10,8 +10,6 @@ $client = $clientBuilder->buildAuthenticatedByPassword(
     'admin'
 );
 
-$token = $client->getToken();
-var_dump($token);
 /*
  * Credentials for the API
  *
@@ -22,5 +20,44 @@ var_dump($token);
  *
 */
 
-$product = $client->getProductApi()->get('Tshirt-divided-blue-s');
-var_dump($product["identifier"]);
+$searchBuilder = new \Akeneo\Pim\ApiClient\Search\SearchBuilder();
+$searchBuilder->addFilter('enabled', '=', true);
+$searchFilters = $searchBuilder->getFilters();
+
+//$firstPage = $client->getProductApi()->listPerPage(50, true, ['search' => $searchFilters]);
+
+$productToImport = [
+    "family"     => "accessories",
+    "parent"     => null,
+    "categories" => ["print_accessories", "supplier_zaro"],
+    "enabled"    => true,
+    "values"     => [
+        "ean"    => [["locale" => null, "scope" => null, "data" => "123456543"]],
+        "name"   => [["locale" => null, "scope" => null, "data" => "Bag"]],
+        "weight" => [
+            [
+                "locale" => null,
+                "scope"  => null,
+                "data"   => ["amount" => "500.0000", "unit" => "GRAM"]
+            ]
+        ]
+    ]
+];
+
+try {
+    $client->getProductApi()->create('NEW_SKU123', $productToImport);
+} catch (\Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException $e) {
+    // do your stuff with the exception
+    $requestBody = $e->getRequest()->getBody();
+    $responseBody = $e->getResponse()->getBody();
+    $httpCode = $e->getCode();
+    $errorMessage = $e->getMessage();
+    $errors = $e->getResponseErrors();
+    foreach ($e->getResponseErrors() as $error) {
+        // do your stuff with the error
+        echo $error['property'];
+        echo $error['message'];
+    }
+}
+
+

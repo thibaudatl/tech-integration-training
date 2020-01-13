@@ -9,52 +9,8 @@ $client = $clientBuilder->buildAuthenticatedByPassword(
     'admin',
     'admin'
 );
-try{
-    $response = $client->getProductApi()->upsertList([
-        [
-            "identifier" => "34567",
-            "values"     => [
-                "ean" => [
-                    [
-                        "locale" => null,
-                        "scope"  => null,
-                        "data"   => "1092"
-                    ]
-                ]
-            ],
-            "family" => "accessories"
-        ],
-        [
-            "identifier" => "3fg567",
-            "values"     => [
-                "ean" => [
-                    [
-                        "locale" => null,
-                        "scope"  => null,
-                        "data"   => "1092"
-                    ]
-                ],
-                "family" => "accessories"
-            ]
-        ]
-    ]);
-} catch (\Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException $e) {
-    // You are able to get information on what was the request, and why it failed
-    $requestBody = $e->getRequest()->getBody();
-    $responseBody = $e->getResponse()->getBody();
-    $httpCode = $e->getCode();
-    $errorMessage = $e->getMessage();
-    var_dump($errorMessage);
-    $errors = $e->getResponseErrors();
-    foreach ($e->getResponseErrors() as $error) {
-        // do your stuff with the error
-        echo $error['property'];
-        echo $error['message'];
-    }
-}
 
 
-die;
 /*
  * Plan of the workshop
  *
@@ -91,17 +47,17 @@ die;
  * */
 
 
-# Import 1 Product
-ImportOneProduct($client);
-
-# Import products media
-importMediaProducts($client);
-
-# Import multiple products
-foreach (range(10) as $e) {
-    ImportOneProduct($client);
-}
-
+//# Import 1 Product
+//ImportOneProduct($client);
+//
+//# Import products media
+//importMediaProducts($client);
+//
+//# Import multiple products
+//foreach (range(10) as $e) {
+//    ImportOneProduct($client);
+//}
+//
 ImportMultipleProducts($client);
 
 
@@ -178,9 +134,72 @@ function importMediaProducts($client)
 
 }
 
+
 function ImportMultipleProducts($client)
 {
+    try{
+        $response = $client->getProductApi()->upsertList([
+            [
+                "identifier" => "cap",
+                "family" => "accessories",
+            ],
+            [
+                "identifier" => "cap23",
+                "family" => "accessories",
+                "values" => [
+                    "auto_focus_points" => [
+                        [
+                            "scope"  => null,
+                            "locale" => null,
+                            "data"   => 2
+                        ]
+                    ]
+                ]
+            ]
+        ]);
 
+    } catch (\Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException $e) {
+        // You are able to get information on what was the request, and why it failed
+        echo "Unprocessabkajshfkjshdfkjshle\n";
+        $requestBody = $e->getRequest()->getBody();
+        $responseBody = $e->getResponse()->getBody();
+        $httpCode = $e->getCode();
+        $errorMessage = $e->getMessage();
+        var_dump($e->getMessage());
+        $errors = $e->getResponseErrors();
+        foreach ($e->getResponseErrors() as $error) {
+            // do your stuff with the error
+            echo $error['property'] ."\n";
+            echo $error['message']."\n";
+        }
+    } catch (\Akeneo\Pim\ApiClient\Exception\UnauthorizedHttpException $e) {
+        // do your stuff with the exception
+        $requestBody = $e->getRequest()->getBody();
+        $responseBody = $e->getResponse()->getBody();
+        $httpCode = $e->getCode();
+        $errorMessage = $e->getMessage();
+        echo "Unauthorized\n";
+    } catch (\Akeneo\Pim\ApiClient\Exception\NotFoundHttpException $e) {
+        // do your stuff with the exception
+        echo "Not Found\n";
+        $requestBody = $e->getRequest()->getBody();
+        $responseBody = $e->getResponse()->getBody();
+        $httpCode = $e->getCode();
+        $errorMessage = $e->getMessage();
+    } catch (Akeneo\Pim\ApiClient\Exception\ServerErrorHttpException $e) {
+        if (is_iterable($e->getMessage())) {
+            foreach($e->getMessage() as $error) {
+                var_dump($error);
+            }
+        } else {
+            var_dump($e->getMessage());
+        }
+    }
+    if (is_iterable($response)) {
+        foreach($response as $r){
+            var_dump($r);
+        }
+    }
 }
 
 

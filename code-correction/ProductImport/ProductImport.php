@@ -2,32 +2,57 @@
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
+$clientBuilder = new \Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientBuilder('127.0.0.1:8088');
+$client = $clientBuilder->buildAuthenticatedByPassword(
+    '2_28q0eh5zrvgggscgkgs4kwk8gcsc4sw8wgwg8c0sks8gggw0s4',
+    '4yyftxudoesc4wk88oc4sowkw0k4gs4c4oco444cs0ksckkw0c',
+    'admin',
+    'admin'
+);
 
 
-Class ProductImport
-{
-    protected $client;
+# Import 1 Product
+ImportOneProduct($client);
 
-    protected $clientBuilder;
+# Import products media
+importMediaProducts($client);
 
-    public function __construct()
-    {
-        $this->clientBuilder = new \Akeneo\Pim\ApiClient\AkeneoPimClientBuilder('127.0.0.1:8088');
-        $this->client = $this->authenticate();
-    }
+# Import multiple products
+foreach (range(10) as $e) {
+    ImportOneProduct($client);
+}
+    /*
+     * Plan of the workshop
+     *
+     * Introduction:
+     *      Order of importing entities is Important.
+     *      List of endpoints on api.akeneo.com or /v1/api/
+     *      api php client EE
+     *      When creating an product we use the attribute code! mapping might have to be done when doing this with real data
+     *
+     * 1- simple import 1 product
+     *      We make them create the authenticate function, and the import product function
+     *      If they've done the export workshop first, ask the attendees to query a product and save it in a array
+     *      OR give them the example of product and ask them to create a product from the API
+     *
+     * 2- talk about error handling, what to do with them? log them into a file? raise exception?
+     *
+     * 3- Product media -
+     *      Take image
+     *      Get attributes from API,
+     *
+     * 4- Multiple products with multiple calls (1 per product)
+     *
+     * 5- Multiple products creation (with 1 call)
+     *
+     * 6- Parallel calls (script that launches multiple time the method importMultipleProducts)
+     *
+     * */
 
-    private function authenticate()
-    {
-        return $this->clientBuilder->buildAuthenticatedByPassword(
-            '2_28q0eh5zrvgggscgkgs4kwk8gcsc4sw8wgwg8c0sks8gggw0s4',
-            '4yyftxudoesc4wk88oc4sowkw0k4gs4c4oco444cs0ksckkw0c',
-            'admin',
-            'admin'
-        );
-    }
-
-
-    public function ImportOneProduct()
+    /*
+     * Importing one product
+     * */
+    function ImportOneProduct($client)
     {
         $productToImport = [
             "family"     => "accessories",
@@ -48,9 +73,9 @@ Class ProductImport
         ];
 
         try {
-            $this->client->getProductApi()->create('NEW_SKU13', $productToImport);
+            $client->getProductApi()->create('NEW_SKU13', $productToImport);
         } catch (\Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException $e) {
-            // do your stuff with the exception
+            // You are able to get information on what was the request, and why it failed
             $requestBody = $e->getRequest()->getBody();
             $responseBody = $e->getResponse()->getBody();
             $httpCode = $e->getCode();
@@ -61,7 +86,7 @@ Class ProductImport
                 echo $error['property'];
                 echo $error['message'];
             }
-        } catch (HttpException $e) {
+        } catch (\Akeneo\Pim\ApiClient\Exception\HttpException $e) {
             // do your stuff with the exception
             $requestBody = $e->getRequest()->getBody();
             $responseBody = $e->getResponse()->getBody();
@@ -69,8 +94,32 @@ Class ProductImport
             $errorMessage = $e->getMessage();
         }
     }
-}
+    /*
+     * update a product and making it
+     * Images must be on your local because we're sending the binary over
+     * Product or product model must exists before adding an image
+     * */
+    function importMediaProducts($client)
+    {
+        $file = fopen("/srv/pim/code-correction/ProductImport/akeneo.png", 'r');
 
-$productImport = new ProductImport();
+        if ($file === false){
+            echo "the path of your image is wrong" . PHP_EOL;
+            die;
+        }
 
-$productImport->ImportOneProduct();
+        try {
+            $client->getProductMediaFileApi()->create(
+                $file,
+                ["identifier" => "FGHJ", "attribute" => "image", "scope" => null, "locale" => null]
+            );
+        } catch (UnprocessableEntityHttpException $e) {
+            echo "Unprocessable\n";
+            var_dump($e->getMessage());
+        }
+
+    }
+
+
+
+

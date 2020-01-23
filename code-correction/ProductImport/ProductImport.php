@@ -29,7 +29,7 @@ $client = $clientBuilder->buildAuthenticatedByPassword(
  * 2- talk about error handling, what to do with them? log them into a file? raise exception? send email?
  *      HTTP exception - The parent Class, Two types of exception inherit from this exception: server exception and client exception
  *      Server exception - 5XX family, server failed to fulfill an apparently valid request, from Akeneo\Pim\Exception\ServerErrorHttpException
- *      Client exception - 4XX - ,
+ *      Client exception - 4XX -
  *                          400 BAD REQUEST EXCEPTION, the request does not contain valid JSON (should not occure with the api-client)
  *                          401 Unauthorized: when you don't have the permission to access the resource
  *                          404 not found
@@ -53,18 +53,18 @@ $client = $clientBuilder->buildAuthenticatedByPassword(
 
 $startTime = microtime(true);
 
-//# Import 1 Product
-//ImportOneProduct($client);
-//
-//# Import products media
-//importMediaProducts($client);
-//
-//# Import multiple products
-//foreach (range(10) as $e) {
-//    ImportOneProduct($client);
-//}
-//
-//ImportMultipleProducts($client);
+# Import 1 Product
+ImportOneProduct($client);
+
+# Import products media
+importMediaProducts($client);
+
+# Import multiple products
+foreach (range(10) as $e) {
+    ImportOneProduct($client);
+}
+
+ImportMultipleProducts($client);
 
 importOneProductModel($client);
 

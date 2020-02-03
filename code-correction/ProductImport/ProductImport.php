@@ -68,7 +68,7 @@ ImportMultipleProducts($client);
 
 importOneProductModel($client);
 
-echo "executed in : " . processTime($startTime)." seconds \n";
+endTimer($startTime);
 
 function importOneProductModel($client)
 {
@@ -82,7 +82,6 @@ function importOneProductModel($client)
         echo "Unprocessable\n";
         echo $e->getMessage();
         foreach ($e->getResponseErrors() as $error) {
-            var_dump($error);
             echo $error['property'] ."\n";
             echo $error['message']."\n";
         }
@@ -106,25 +105,14 @@ function importOneProductModel($client)
  * */
 function importOneProduct($client)
 {
-    $productToImport = [
-        "family"     => "accessories",
-        "parent"     => null,
-        "enabled"    => true,
-        "values"     => [
-            "ean"    => [["locale" => null, "scope" => null, "data" => "sds3423sd"]],
-            "name"   => [["locale" => null, "scope" => null, "data" => "REMY_MACBOOKPRO"]],
-            "weight" => [
-                [
-                    "locale" => null,
-                    "scope"  => null,
-                    "data"   => ["amount" => "500.0000", "unit" => "GRAM"]
-                ]
-            ]
-        ]
-    ];
+    $productToImport = json_decode(file_get_contents('/srv/pim/code-correction/ProductImport/product.json'), true);
+
+    $identifier = bin2hex(random_bytes(16));
+
+    $productToImport["identifier"] = $identifier;
 
     try {
-        $response = $client->getProductApi()->create('REMY_MCBOOKPRO', $productToImport);
+        $response = $client->getProductApi()->create($identifier, $productToImport);
     } catch (\Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException $e) {
         echo "Unprocessable\n";
         echo $e->getMessage();
@@ -181,6 +169,14 @@ function importMediaProducts($client)
 
 function importMultipleProducts($client)
 {
+    $productToImport = json_decode(file_get_contents('/srv/pim/code-correction/ProductImport/multiple_products.json'), true);
+
+    foreach($productToImport as $key => $product) {
+        $identifier = bin2hex(random_bytes(16));
+
+        $productToImport[$key]["identifier"] = $identifier;
+    }
+
     try{
         $response = $client->getProductApi()->upsertList([
             [
@@ -241,12 +237,11 @@ function importMultipleProducts($client)
     }
 }
 
-function processTime($startTime)
+function endTimer($startTime)
 {
     $endTime = microtime(true);
     $totTime = round($endTime - $startTime, 3);
-    return $totTime;
+    echo "executed in : " . $totTime." seconds \n";
 }
-
 
 

@@ -12,3 +12,4 @@ services:
       XDEBUG_CONFIG: 'remote_host=172.17.0.1'
     volumes:
       - '~/.composer:/home/docker/.composer'
+    network_mode: "host"

@@ -1,2 +1,5 @@
 vendor
 .idea/
+docker-compose.yml
+docker-compose.override.yml
+code-correction/MagentoConnectorCompatibility.php

@@ -14,7 +14,6 @@ $productProperties = ["sku", "family", "categories"];
 $handle = fopen("code-correction/ProductImport/product.csv", "r");
 
 $lineNumber = 0;
-$textAttributeLocalizable = ["code" => ["localizable" => false, "scopable" => false]];
 $indexesAttributes = [];
 $indexesProperties = [];
 $templateProduct = [];

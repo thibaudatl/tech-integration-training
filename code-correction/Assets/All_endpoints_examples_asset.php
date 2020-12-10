@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 $clientBuilder = new \Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientBuilder('http://localhost:8080/');
 $client = $clientBuilder->buildAuthenticatedByPassword(
@@ -9,6 +9,8 @@ $client = $clientBuilder->buildAuthenticatedByPassword(
     'admin',
     'admin'
 );
+
+# Endpoints for assets
 
 $familyAssetData = [
     'code' => 'book',
@@ -30,6 +32,9 @@ $familyAssetAttributeNberPage = [
     "value_per_channel" => false,
     "is_required_for_completeness" => true
 ];
+
+
+# Add Asset Attribute
 $client->getAssetAttributeApi()->upsert("book", "nber_page", $familyAssetAttributeNberPage);
 
 $familyAssetAttributeType = [
@@ -43,6 +48,9 @@ $familyAssetAttributeType = [
     "value_per_channel" => false,
     "is_required_for_completeness" => true
 ];
+
+
+# Add attribute on Asset family
 $client->getAssetAttributeApi()->upsert("book", "typeOfBook", $familyAssetAttributeType);
 
 $familyAssetAttributeTypeValueComics = [
@@ -52,6 +60,9 @@ $familyAssetAttributeTypeValueComics = [
         "fr_FR" => "Comique"
     ]
 ];
+
+
+# Add attribute option
 $client->getAssetAttributeOptionApi()->upsert("book", "typeOfBook", "comics",$familyAssetAttributeTypeValueComics);
 
 $familyAssetAttributeTypeValueThriller = [

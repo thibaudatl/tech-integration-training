@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-$clientBuilder = new \Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientBuilder('http://localhost:8080');
+$clientBuilder = new \Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientBuilder('https://training-api.dev.cloud.akeneo');
 $client = $clientBuilder->buildAuthenticatedByPassword(
     '1_2k5qe1n6rwmc4kk84wcwso4okogw4k88kg08c8k4ows0ows8s0',
     '42gbibx481mowwwwwc84c4gkosog8okws8gk88s4oc0w8cw08k',
@@ -10,8 +10,14 @@ $client = $clientBuilder->buildAuthenticatedByPassword(
     'bb46cee75'
 );
 
-$productProperties = ["sku", "family", "categories"];
-$handle = fopen("code-correction/ProductImport/product.csv", "r");
+
+/*
+ * Writing a CSV file from API data
+ *
+ * */
+$productProperties = ["sku", "family", "categories", "enabled", "parent"];
+
+$handle = fopen("code-correction/ProductImport/statics/product.csv", "r");
 
 $lineNumber = 0;
 $indexesAttributes = [];
@@ -56,7 +62,11 @@ while ($modelLine = fgetcsv($handle, 0, ";")) {
             $attributeCode = $attributeCodeLocaleChannel[0];
             $localeCode    = $attributeCodeLocaleChannel[1];
 
-            $currentLineTemplate["values"][$attributeCode][] = ["data" => $value,"locale" => $localeCode, "scope" => null];
+            $currentLineTemplate["values"][$attributeCode][] = [
+                "data" => $value,
+                "locale" => $localeCode,
+                "scope" => null
+            ];
         }
     }
     file_put_contents("productToSave.json", json_encode($currentLineTemplate));
@@ -69,7 +79,7 @@ while ($modelLine = fgetcsv($handle, 0, ";")) {
 
 function sendDataToAPI($client, $product){
     try {
-        $response = $client->getProductApi()->upsert($product["identifier"],$product);
+        $response = $client->getProductApi()->upsertList($product["identifier"],$product);
     } catch (\Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException $e) {
         echo "Unprocessable\n";
         echo $e->getMessage();

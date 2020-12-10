@@ -22,11 +22,8 @@ $client = $clientBuilder->buildAuthenticatedByPassword(
  *      performances: API is a focus for 4.0 and import's performances have been greatly (4X) since 3.2
  *
  * 1- simple import 1 product
- *      We make them create the authenticate function, and the import product function
- *      If they've done the export workshop first, ask the attendees to query a product and save it in a array
- *      OR give them the example of product and ask them to create a product from the API
  *
- * 2- talk about error handling, what to do with them? log them into a file? raise exception? send email?
+ * 2- Error handling, what to do with them? log them into a file? raise exception? send email?
  *      HTTP exception - The parent Class, Two types of exception inherit from this exception: server exception and client exception
  *      Server exception - 5XX family, server failed to fulfill an apparently valid request, from Akeneo\Pim\Exception\ServerErrorHttpException
  *      Client exception - 4XX -
@@ -80,25 +77,25 @@ foreach ($identifiers as $i) {
 $startTime = microtime(true);
 
 # Import 1 Product
-//ImportOneProduct($client);
-//
+ImportOneProduct($client);
+
 //# Import products media
-//importMediaProducts($client);
+importMediaProducts($client);
 
 # Import multiple products
 foreach (range(10) as $e) {
     ImportOneProduct($client);
 }
 
-//ImportMultipleProducts($client);
-//
-//importOneProductModel($client);
+ImportMultipleProducts($client);
+
+importOneProductModel($client);
 
 endTimer($startTime);
 
 function importOneProductModel($client)
 {
-    $productModel = json_decode(file_get_contents('/srv/pim/code-correction/ProductImport/product_model.json'), true);
+    $productModel = json_decode(file_get_contents('/srv/pim/code-correction/ProductImport/statics/product_model.json'), true);
     $code = $productModel["code"];
     unset ($productModel["code"]);
 
@@ -131,7 +128,7 @@ function importOneProductModel($client)
  * */
 function importOneProduct($client)
 {
-    $productToImport = json_decode(file_get_contents('/srv/pim/code-correction/ProductImport/product.json'), true);
+    $productToImport = json_decode(file_get_contents('/srv/pim/code-correction/ProductImport/statics/product.json'), true);
 
     $identifier = bin2hex(random_bytes(16));
 
@@ -173,7 +170,7 @@ function importOneProduct($client)
  * */
 function importMediaProducts($client)
 {
-    $file = fopen("/srv/pim/code-correction/ProductImport/akeneo.png", 'r');
+    $file = fopen("/srv/pim/code-correction/ProductImport/statics/akeneo.png", 'r');
 
     if ($file === false){
         echo "the path of your image is wrong" . PHP_EOL;
@@ -195,13 +192,7 @@ function importMediaProducts($client)
 
 function importMultipleProducts($client)
 {
-    $productToImport = json_decode(file_get_contents('/srv/pim/code-correction/ProductImport/multiple_products.json'), true);
-
-    foreach($productToImport as $key => $product) {
-        $identifier = bin2hex(random_bytes(16));
-
-        $productToImport[$key]["identifier"] = $identifier;
-    }
+    $productToImport = json_decode(file_get_contents('/srv/pim/code-correction/ProductImport/statics/100_products.json'), true);
 
     try{
         $response = $client->getProductApi()->upsertList([

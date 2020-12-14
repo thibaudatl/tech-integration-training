@@ -1,0 +1,238 @@
+{
+  "identifier": "129008",
+  "enabled": true,
+  "family": "smartphones",
+  "categories": [
+    "audio_video",
+    "new_products",
+    "supplier1"
+  ],
+  "groups": [
+    "selectionnoel"
+  ],
+  "parent": "iphone8",
+  "values": {
+    "storage": [
+      {
+        "locale": null,
+        "scope": null,
+        "data": "256"
+      }
+    ],
+    "unlocked": [
+      {
+        "locale": "de_DE",
+        "scope": null,
+        "data": "unlocked"
+      },
+      {
+        "locale": "en_US",
+        "scope": null,
+        "data": "locked"
+      },
+      {
+        "locale": "fr_FR",
+        "scope": null,
+        "data": "locked"
+      }
+    ],
+    "processorbrand": [
+      {
+        "locale": "en_US",
+        "scope": null,
+        "data": "apple"
+      },
+      {
+        "locale": "fr_FR",
+        "scope": null,
+        "data": "apple"
+      }
+    ],
+    "price": [
+      {
+        "locale": null,
+        "scope": null,
+        "data": [
+          {
+            "amount": "999.00",
+            "currency": "EUR"
+          },
+          {
+            "amount": "1299.00",
+            "currency": "USD"
+          }
+        ]
+      }
+    ],
+    "carrier": [
+      {
+        "locale": null,
+        "scope": null,
+        "data": [
+          "t_mobile",
+          "verizon"
+        ]
+      }
+    ],
+    "brand": [
+      {
+        "locale": null,
+        "scope": null,
+        "data": "apple"
+      }
+    ],
+    "single_ref_entity_color": [
+      {
+        "locale": null,
+        "scope": null,
+        "data": "red"
+      }
+    ],
+    "product_pics": [
+      {
+        "locale": null,
+        "scope": null,
+        "data": [
+          "rouge_3",
+          "rouge_1",
+          "rouge_2"
+        ]
+      }
+    ],
+    "height": [
+      {
+        "locale": null,
+        "scope": "ecommerce",
+        "data": {
+          "amount": "13.8400",
+          "unit": "CENTIMETER"
+        }
+      }
+    ],
+    "weight": [
+      {
+        "locale": null,
+        "scope": null,
+        "data": {
+          "amount": "150.0000",
+          "unit": "GRAM"
+        }
+      }
+    ],
+    "doublesim": [
+      {
+        "locale": "de_DE",
+        "scope": null,
+        "data": false
+      },
+      {
+        "locale": "en_US",
+        "scope": null,
+        "data": false
+      },
+      {
+        "locale": "fr_FR",
+        "scope": null,
+        "data": false
+      }
+    ],
+    "screensize": [
+      {
+        "locale": null,
+        "scope": null,
+        "data": "4.5000"
+      }
+    ],
+    "Screen_type": [
+      {
+        "locale": "en_US",
+        "scope": null,
+        "data": "Retina"
+      }
+    ],
+    "producttitle": [
+      {
+        "locale": "de_DE",
+        "scope": null,
+        "data": "iPhone 8 rot 256 Gb ohne Vertrag"
+      },
+      {
+        "locale": "en_US",
+        "scope": null,
+        "data": "Apple iPhone 8 red - 256 Gb"
+      },
+      {
+        "locale": "fr_FR",
+        "scope": null,
+        "data": "iPhone 8 rouge 256 Go débloqué"
+      }
+    ],
+    "camera_model_name": [
+      {
+        "locale": null,
+        "scope": null,
+        "data": "iPhone 8"
+      }
+    ],
+    "max_image_resolution": [
+      {
+        "locale": null,
+        "scope": null,
+        "data": "2532×1770"
+      }
+    ],
+    "description": [
+      {
+        "locale": "en_US",
+        "scope": "ecommerce",
+        "data": "iPhone 8 features a dual-camera setup with wide and ultra-wide lenses, alongside more capable Smart HDR and improved Night mode with support for the selfie camera and the ultra-wide for the first time. A new time-lapse feature is exclusive to the new iPhone.<br/><br/> <b>Product Details</b><ul><li>Screen type: Retina</li><li> Waterproof: Yes </li><li>Unlocked or tied to a carrier: unlocked </li><li> Screen resolution: 2532×1770 pixels</li></ul> <br/>Do you want more information? Visit our <a href=\"https://9to5mac.com/guides/iphone-12/\">online store</a>."
+      }
+    ],
+    "short_description": [
+      {
+        "locale": "en_US",
+        "scope": "mobile",
+        "data": "this is a description"
+      },
+      {
+        "locale": "en_US",
+        "scope": "ecommerce",
+        "data": "iPhone 8 features a dual-camera setup with wide and ultra-wide lenses, alongside more capable Smart HDR and improved Night mode with support for the selfie camera and the ultra-wide for the first time. A new time-lapse feature is exclusive to the new iPhone."
+      }
+    ]
+  },
+  "created": "2020-10-28T13:46:54+00:00",
+  "updated": "2020-12-11T05:01:00+00:00",
+  "associations": {
+    "UPSELL": {
+      "products": [
+        "1349296",
+        "4842080",
+        "AKNSTK"
+      ],
+      "product_models": [],
+      "groups": []
+    },
+    "2wayassoc": {
+      "products": [
+        "9920262"
+      ],
+      "product_models": [],
+      "groups": []
+    },
+    "SUBSTITUTION": {
+      "products": [],
+      "product_models": [],
+      "groups": []
+    },
+    "esr_test_crosssell": {
+      "products": [],
+      "product_models": [],
+      "groups": []
+    }
+  },
+  "quantified_associations": {},
+  "metadata": {
+    "workflow_status": "working_copy"
+  }
+}

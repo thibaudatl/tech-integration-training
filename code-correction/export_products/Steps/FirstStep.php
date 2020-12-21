@@ -109,7 +109,6 @@ foreach ($response as $product) {
 fclose($handle);
 
 
-
 # ------------------------------------------------------------------------------------------------------------
 /*
  * Step 3 :
@@ -169,66 +168,3 @@ foreach ($response as $product) {
     ], ";") ;
 }
 
-
-# ------------------------------------------------------------------------------------------------------------
-/*
- * Step 5 :
- *      - How can we organize our code so that we create a scalable and adaptable connector?
- *
- * In our previous example, we added the attribute "name", with the locale en_US. We hardcoded it.
- *
- * When developing a connector, we want to be able to parse the Product JSON and dynamically add the attribute values to
- * the csv. Let's try to do this with a single product. We'll add all the attribute values from 1 product inside the csv.
- *
- * */
-# ------------------------------------------------------------------------------------------------------------
-
-# TIP 1: Create arrays of headers for your CSV to easily find your product properties and product attributes
-$productProperties   = ["identifier", "enabled", "family", "categories", "groups", "parent"];
-$productAssociations = ["associations", "quantified_associations"];
-
-# TIP 2:
-$family = $client->getFamilyApi()->get("<YOUR_FAMILY_CODE>");
-$attributes = $family["attributes"];
-
-$searchBuilder = new \Akeneo\Pim\ApiClient\Search\SearchBuilder();
-$searchBuilder->addFilter("code", "IN", [$attributes]);
-$searchFilters = $searchBuilder->getFilters();
-
-$attributeConfiguration = $client->getAttributeApi()->all("100", [ "search" => $searchFilters ]);
-
-$attributeConfigurationArray = [];
-
-foreach ($attributeConfiguration as $att) {
-    $attributeConfigurationArray[ $att["code"] ] = [ "type" => $att["type"] ];
-}
-
-
-
-$product = $client->getProductApi()->get("<YOUR_PRODUCT_IDENTIFIER>");
-
-
-
-
-
-
-fputcsv( $handle, ["sku", "storage", "categories"], ";" );
-
-
-
-$catLabels = "";
-
-foreach ($response as $resp) {
-    $catCode = implode(",", $resp["categories"]);
-
-    foreach ($resp["categories"] as $cat) {
-        $currentCat = $client->getCategoryApi()->get($cat);
-        $catLabel   = $currentCat["labels"]["en_US"];
-        $catLabels .= $catLabel . ",";
-    }
-
-    fputcsv( $handle, [$resp["identifier"], $resp["values"]["storage"][0]["data"], rtrim($catLabels, ",")], ";" );
-
-}
-
-fclose($handle);

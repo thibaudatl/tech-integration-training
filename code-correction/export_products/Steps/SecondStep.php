@@ -60,7 +60,31 @@ foreach ($attributeConfiguration as $att) {
 
 
 
-
 $product = $client->getProductApi()->get("<YOUR_PRODUCT_IDENTIFIER>");
 
+
+
+
+
+
+fputcsv( $handle, ["sku", "storage", "categories"], ";" );
+
+
+
+$catLabels = "";
+
+foreach ($response as $resp) {
+    $catCode = implode(",", $resp["categories"]);
+
+    foreach ($resp["categories"] as $cat) {
+        $currentCat = $client->getCategoryApi()->get($cat);
+        $catLabel   = $currentCat["labels"]["en_US"];
+        $catLabels .= $catLabel . ",";
+    }
+
+    fputcsv( $handle, [$resp["identifier"], $resp["values"]["storage"][0]["data"], rtrim($catLabels, ",")], ";" );
+
+}
+
+fclose($handle);
 

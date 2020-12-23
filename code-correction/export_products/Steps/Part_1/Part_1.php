@@ -138,6 +138,7 @@ foreach ($response as $product) {
     fputcsv( $handle, [$product["identifier"], $product["family"], $stringCategories], ";") ;
 }
 
+fclose($handle);
 
 # ------------------------------------------------------------------------------------------------------------
 /*
@@ -168,3 +169,4 @@ foreach ($response as $product) {
     ], ";") ;
 }
 
+fclose($handle);

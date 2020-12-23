@@ -18,6 +18,8 @@ Every night you have a cronjob launching an import of different CSV files to pop
 ## Export products to a csv - Part 2
 ### Organize your connector code
 ### Make it dynamic
+#### Explore the family object
+#### Explore the attribute object
 ### Make it adaptable to any Akeneo project
 ### Make it scalable
 

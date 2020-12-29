@@ -1,10 +1,17 @@
-# Assets Manager 4.0
+# Assets Manager 
 
-Let's lean about the new features of the Asset Manager 
+Let's learn about the awesome features Akeneo's Asset Manager can offer.
 
-Here is a step by step process to create a product link rule, that will automatically link your assets to the products. This process has constraints, but used correctly, assigning products to assets can completely disapear from your workflow.
+#### What are we doing here?
+In this workshop, we'll explore how "PXM champions" use the Akeneo Asset Manager to easily manage, enrich, transform & 
+link their assets to products.
 
-Link of this page: https://github.com/thibaudatl/training-api/blob/master/asset_exercise.md
+#### First things first
+If you're unfamiliar with the notion of "Asset" in Akeneo, here's a [good starting point](https://help.akeneo.com/pim/serenity/articles/what-about-assets.html#a-bit-of-vocabulary)
+
+
+You will find below a step by step process on how to create a product link rule, that will automatically link your assets to the products.
+This process has constraints, but used correctly, assigning products to assets can completely disapear from your workflow.
 
 # Pre-reqs
 ## Asset family

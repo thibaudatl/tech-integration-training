@@ -32,9 +32,18 @@ $client = $clientBuilder->buildAuthenticatedByPassword(
  * When developing a connector, we want to be able to parse the Product JSON and dynamically add the attribute values to
  * the csv. Let's try to do this with a single product. We'll first write the product properties and associations to the csv.
  *
+ * We'll do a product API call and filter on 1 sku and populate the csv file with those information.
+ * The CSV file will follow Akeneo's standard. To get an example, you can use the  "Product Export" functionality of
+ * the PIM and export the product.
  *
  * */
 # ------------------------------------------------------------------------------------------------------------
+/*
+ * Let's start by identifying the product properties and put them into an array. Because we will treat them differently,
+ * we'll differentiate the properties with scalar value (identifier, enabled, family, parent) and the ones that are
+ * objects and arrays.
+ *
+ * */
 
 # Akeneo's API only returns attribute with data
 
@@ -62,11 +71,9 @@ $handle = fopen(" code-correction/export_products/Steps/Part_2/output.csv", "w")
 
 foreach( $productJson["values"] as $attributeCode => $productValue ) {
 
-
     foreach ( $productValue as $prodV ) {
 
         $currentAttribute = $attributeCode;
-
         $currentProductValue = "";
 
         if ( $prodV["scope"] !== NULL ) {

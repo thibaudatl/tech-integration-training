@@ -50,7 +50,6 @@ $client = $clientBuilder->buildAuthenticatedByPassword(
 # TIP 1: Create arrays of headers for your CSV to easily find your product properties and product attributes
 $productPropertiesStrings   = ["identifier", "enabled", "family", "parent"];
 $productPropertiesArrays   = ["categories", "groups"];
-
 $productAssociations = ["associations", "quantified_associations"];
 
 $productJsonString = file_get_contents("./code-correction/export_products/iphone_product_API_Akeneo.json");
@@ -124,4 +123,40 @@ fputcsv($handle, $csvHeaderAttributes, ";", "\"");
 fputcsv($handle, $productData, ";", "\"");
 
 
+
+/*
+ * To work with multiple products, we can use this function that will prepend our CSV headers to the file before finishing
+ * This way, we ensure all the attributes are in the headers
+ *  */
+
+function prepend($csvHeaderString, $orig_filename) {
+    $context = stream_context_create();
+    $orig_file = fopen($orig_filename, 'r', 1, $context);
+
+    $temp_filename = tempnam(sys_get_temp_dir(), 'php_prepend_');
+    file_put_contents($temp_filename, $csvHeaderString);
+    file_put_contents($temp_filename, $orig_file, FILE_APPEND);
+
+    fclose($orig_file);
+    unlink($orig_filename);
+    rename($temp_filename, $orig_filename);
+}
+
+/*
+ * To fill arrays with empty string */
+
+/*
+    $arra = [];
+    $arra[3] = "yes";
+
+    $max = max(array_keys($arra));
+
+    for($i = 0; $i < $max; $i++) {
+        if (isset($arra[$i])) continue;
+
+        $arra[$i] = "";
+    }
+
+    ksort($arra);
+*/
 

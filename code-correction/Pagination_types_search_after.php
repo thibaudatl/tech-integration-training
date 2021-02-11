@@ -13,7 +13,6 @@ $client = $clientBuilder->buildAuthenticatedByPassword(
 # Different types of pagination
 # Prefer SearchAfter for products & product models
 
-
 //page
 $queryParameters['pagination_type'] = 'page';  # default pagination used by the API, the php-api-client in the other hand default to pagination search_after.
 $result = $client->getProductApi()->listPerPage(10,true,$queryParameters);

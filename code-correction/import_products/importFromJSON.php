@@ -4,10 +4,10 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 
 $clientBuilder = new \Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientBuilder('http://localhost:8080');
 $client = $clientBuilder->buildAuthenticatedByPassword(
-    '12_1orxq7n14ew0cwc48g8wccgok84o8owc0w8848sk00c88w4csg',
-    '26qda9srtdwgo40gkk8kwskk4gkco8oc8ss4o0wwks40gk8gks',
-    'akeneo_test_7014',
-    '9d5639eaa'
+    '5_59cm7oo30cg04gcsog8so0cs00sosc4kg0o40s40c0s8wgocgg',
+    '30yk18mt51us8oscoggk0cgog00soks0s40osw0c04skowwwo4',
+    'leo_9307',
+    'a82a66150'
 );
 
 /*
@@ -17,7 +17,8 @@ $client = $clientBuilder->buildAuthenticatedByPassword(
  *      Order of importing entities is Important.
  *      List of endpoints on api.akeneo.com or /v1/api/
  *      api php client EE
- *      When creating an product we use the attribute code! mapping might have to be done when doing this with real data
+ *      When creating a product we use the attribute code to populate attribute values. mapping might be needed when
+ *      doing this with real data (code of attribute in ERP =/=
  *      user rights = go in the PIM and look at the permission tab of roles
  *      performances: API is a focus for 4.0 and import's performances have been greatly (4X) since 3.2
  *
@@ -48,80 +49,51 @@ $client = $clientBuilder->buildAuthenticatedByPassword(
  *
  * */
 
-$identifiers = ["A10143002056100","A10143002077100","C10016005030400","A10143002097100","A10142008000600","A10143001042100","A10143001040100","A10143001038100","A10143001036100","A10143001034100","A10142008000001","E10039005056000","A10142007000200","A10042003025400","E10039004056000","A10143001042450","A10143001040450","A10143001038450","A10143001036450","A10143001034450","E10039003056000","E10039002056000","A10142006000001","A10142006000600","A10042003024400","E10039001056000","A10142005000650","A10142004000001","A10142003000001","A10142002000001","A10142001000680","A10102012055001","A10102012056001","A10102012077001","A10102012097001","C10016005029400","F10002002000750","A10141030055100","A10141030056100","A10141030077100","A10141029055020","A10141029056020","A10141029077020","A10141029097020","A10042003023400","A10101023096020","A10101023055020","A10101023056020","A10101023077020","A10101023097020","C10016005028400","A10101002096020","A10101002055020","A10101002056020","A10101002077020","A10101002097020","A10101016096020","A10101016055020","A10101016056020","A10101016077020","A10101016097020","F30001003000710","A10101009096020","A10101009055020","A10101009056020","A10101009077020","A10101009097020","A10141028055001","A10141028056001","A10141028077001","A10141028097001","A10101023096500","A10101023055500","A10101023056500","A10101023077500","A10101023097500","A10101010096500","A10101010055500","A10101010056500","A10101010077500","A10101010097500","A10141027055001","A10141027056001","A10141027077001","A10101011096500","A10101011055500","A10101011056500","A10101011077500","A10101011097500","A10101023096001","A10101023055001","A10101023056001","A10101023077001","A10101023097001","A10101008096500","A10101008055500","A10101008056500","A10101008077500","A10101008097500","A10101007096500"];
-foreach ($identifiers as $i) {
-    try{
-        $reponse = $client->getProductApi()->get($i);
-    } catch (\Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException $e) {
-        echo "Unprocessable\n";
-        echo $e->getMessage();
-        foreach ($e->getResponseErrors() as $error) {
-            echo $error['property'] ."\n";
-            echo $error['message']."\n";
-        }
-    } catch (\Akeneo\Pim\ApiClient\Exception\UnauthorizedHttpException $e) {
-        echo "Unauthorized\n";
-    } catch (\Akeneo\Pim\ApiClient\Exception\NotFoundHttpException $e) {
-        echo "Not Found\n";
-    } catch (Akeneo\Pim\ApiClient\Exception\ServerErrorHttpException $e) {
-        if (is_iterable($e->getMessage())) {
-            foreach($e->getMessage() as $error) {
-                var_dump($error);
-            }
-        } else {
-            var_dump($e->getResponse());
-        }
-    }
-
-}
+//$identifiers = ["A10143002056100","A10143002077100","C10016005030400","A10143002097100","A10142008000600","A10143001042100","A10143001040100","A10143001038100","A10143001036100","A10143001034100","A10142008000001","E10039005056000","A10142007000200","A10042003025400","E10039004056000","A10143001042450","A10143001040450","A10143001038450","A10143001036450","A10143001034450","E10039003056000","E10039002056000","A10142006000001","A10142006000600","A10042003024400","E10039001056000","A10142005000650","A10142004000001","A10142003000001","A10142002000001","A10142001000680","A10102012055001","A10102012056001","A10102012077001","A10102012097001","C10016005029400","F10002002000750","A10141030055100","A10141030056100","A10141030077100","A10141029055020","A10141029056020","A10141029077020","A10141029097020","A10042003023400","A10101023096020","A10101023055020","A10101023056020","A10101023077020","A10101023097020","C10016005028400","A10101002096020","A10101002055020","A10101002056020","A10101002077020","A10101002097020","A10101016096020","A10101016055020","A10101016056020","A10101016077020","A10101016097020","F30001003000710","A10101009096020","A10101009055020","A10101009056020","A10101009077020","A10101009097020","A10141028055001","A10141028056001","A10141028077001","A10141028097001","A10101023096500","A10101023055500","A10101023056500","A10101023077500","A10101023097500","A10101010096500","A10101010055500","A10101010056500","A10101010077500","A10101010097500","A10141027055001","A10141027056001","A10141027077001","A10101011096500","A10101011055500","A10101011056500","A10101011077500","A10101011097500","A10101023096001","A10101023055001","A10101023056001","A10101023077001","A10101023097001","A10101008096500","A10101008055500","A10101008056500","A10101008077500","A10101008097500","A10101007096500"];
+//foreach ($identifiers as $i) {
+//    try{
+//        $reponse = $client->getProductApi()->get($i);
+//    } catch (\Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException $e) {
+//        echo "Unprocessable\n";
+//        echo $e->getMessage();
+//        foreach ($e->getResponseErrors() as $error) {
+//            echo $error['property'] ."\n";
+//            echo $error['message']."\n";
+//        }
+//    } catch (\Akeneo\Pim\ApiClient\Exception\UnauthorizedHttpException $e) {
+//        echo "Unauthorized\n";
+//    } catch (\Akeneo\Pim\ApiClient\Exception\NotFoundHttpException $e) {
+//        echo "Not Found\n";
+//    } catch (Akeneo\Pim\ApiClient\Exception\ServerErrorHttpException $e) {
+//        if (is_iterable($e->getMessage())) {
+//            foreach($e->getMessage() as $error) {
+//                var_dump($error);
+//            }
+//        } else {
+//            var_dump($e->getResponse());
+//        }
+//    }
+//
+//}
 $startTime = microtime(true);
 
 # Import 1 Product
-ImportOneProduct($client);
-
-//# Import products media
-importMediaProducts($client);
+//ImportOneProduct($client);
+//
+////# Import products media
+//importMediaProducts($client);
 
 # Import multiple products
-foreach (range(10) as $e) {
-    ImportOneProduct($client);
-}
+//foreach (range(10) as $e) {
+//    ImportOneProduct($client);
+//}
 
 ImportMultipleProducts($client);
 
-importOneProductModel($client);
+//importOneProductModel($client);
 
 endTimer($startTime);
 
-function importOneProductModel($client)
-{
-    $productModel = json_decode(file_get_contents('/srv/pim/code-correction/ProductImport/statics/product_model.json'), true);
-    $code = $productModel["code"];
-    unset ($productModel["code"]);
-
-    try{
-        $client->getProductModelApi()->upsert($code, $productModel);
-    } catch (\Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException $e) {
-        echo "Unprocessable\n";
-        echo $e->getMessage();
-        foreach ($e->getResponseErrors() as $error) {
-            echo $error['property'] ."\n";
-            echo $error['message']."\n";
-        }
-    } catch (\Akeneo\Pim\ApiClient\Exception\UnauthorizedHttpException $e) {
-        echo "Unauthorized\n";
-    } catch (\Akeneo\Pim\ApiClient\Exception\NotFoundHttpException $e) {
-        echo "Not Found\n";
-    } catch (Akeneo\Pim\ApiClient\Exception\ServerErrorHttpException $e) {
-        if (is_iterable($e->getMessage())) {
-            foreach($e->getMessage() as $error) {
-                var_dump($error);
-            }
-        } else {
-            var_dump($e->getResponse());
-        }
-    }
-}
 
 /*
  * Importing one product
@@ -163,6 +135,37 @@ function importOneProduct($client)
     }
 }
 
+function importOneProductModel($client)
+{
+    $productModel = json_decode(file_get_contents('/srv/pim/code-correction/ProductImport/statics/product_model.json'), true);
+    $code = $productModel["code"];
+    unset ($productModel["code"]);
+
+    try{
+        $client->getProductModelApi()->upsert($code, $productModel);
+    } catch (\Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException $e) {
+        echo "Unprocessable\n";
+        echo $e->getMessage();
+        foreach ($e->getResponseErrors() as $error) {
+            echo $error['property'] ."\n";
+            echo $error['message']."\n";
+        }
+    } catch (\Akeneo\Pim\ApiClient\Exception\UnauthorizedHttpException $e) {
+        echo "Unauthorized\n";
+    } catch (\Akeneo\Pim\ApiClient\Exception\NotFoundHttpException $e) {
+        echo "Not Found\n";
+    } catch (Akeneo\Pim\ApiClient\Exception\ServerErrorHttpException $e) {
+        if (is_iterable($e->getMessage())) {
+            foreach($e->getMessage() as $error) {
+                var_dump($error);
+            }
+        } else {
+            var_dump($e->getResponse());
+        }
+    }
+}
+
+
 /*
  * update a product and making it
  * Images must be on your local because we're sending the binary over
@@ -192,41 +195,10 @@ function importMediaProducts($client)
 
 function importMultipleProducts($client)
 {
-    $productToImport = json_decode(file_get_contents('/srv/pim/code-correction/ProductImport/statics/100_products.json'), true);
+    $productToImport = json_decode(file_get_contents('/srv/pim/code-correction/import_products/statics/100_products.json'), true);
 
     try{
-        $response = $client->getProductApi()->upsertList([
-            [
-                "identifier" => "cap",
-                "family" => "accessories",
-            ],
-            [
-                "identifier" => "cap23",
-                "family" => "accessories",
-                "values" => [
-                    "auto_focus_points" => [
-                        [
-                            "scope"  => null,
-                            "locale" => null,
-                            "data"   => 2
-                        ]
-                    ]
-                ]
-            ],
-            [
-                "identifier" => "cap03",
-                "family" => "accessories",
-                "values" => [
-                    "auto_focus_points" => [
-                        [
-                            "scope"  => null,
-                            "locale" => null,
-                            "data"   => 2
-                        ]
-                    ]
-                ]
-            ]
-        ]);
+        $response = $client->getProductApi()->upsertList($productToImport);
 
     } catch (\Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException $e) {
         echo "Unprocessable\n";

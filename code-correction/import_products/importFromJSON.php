@@ -187,9 +187,7 @@ function importMediaProducts($client)
         );
     } catch (\Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException $e) {
         echo "Unprocessable\n";
-        var_dump($e->getMessage());
     }
-
 }
 
 

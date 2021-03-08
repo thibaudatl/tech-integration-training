@@ -11,7 +11,6 @@ $client = $clientBuilder->buildAuthenticatedByPassword(
 );
 
 # Endpoints for assets
-
 $familyAssetData = [
     'code' => 'book',
     'labels' => [
@@ -19,6 +18,7 @@ $familyAssetData = [
         'fr_FR' => 'Livre',
     ]
 ];
+
 $client->getAssetFamilyApi()->upsert('book', $familyAssetData);
 
 $familyAssetAttributeNberPage = [
@@ -32,7 +32,6 @@ $familyAssetAttributeNberPage = [
     "value_per_channel" => false,
     "is_required_for_completeness" => true
 ];
-
 
 # Add Asset Attribute
 $client->getAssetAttributeApi()->upsert("book", "nber_page", $familyAssetAttributeNberPage);
